@@ -20,7 +20,7 @@ const loginUser = async (req, res) => {
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (isMatch) {
-      const token = createToken(user._id); // ✅ अब error नहीं आएगा
+      const token = createToken(user._id); 
       res.json({ success: true, token });
     } else {
       res.json({ success: false, message: "Invalid credentials" });
@@ -59,7 +59,7 @@ const registerUser = async (req, res) => {
 
     const user = await newUser.save();
 
-    const token = createToken(user._id); // ✅ पहले से defined function यूज़ कर सकते हैं
+    const token = createToken(user._id); 
     res.json({ success: true, token });
 
   } catch (error) {
@@ -71,6 +71,19 @@ const registerUser = async (req, res) => {
 // Route for admin login
 const adminLogin = async (req, res) => {
   // Implement admin login logic
+  try {
+  const {email,password}=req.body
+  if (email===process.env.ADMIN_EMAIL && password===process.env.ADMIN_PASSWORD) {
+    const token=jwt.sign(email+password,process.env.JWT_SECRET);
+    res.json({success:true,token})
+  }
+  else{
+    res.json({success:false , message : "Invalid credential"})
+  }
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: error.message });
+  }
 };
 
 export { loginUser, registerUser, adminLogin };

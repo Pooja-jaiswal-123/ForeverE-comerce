@@ -1,11 +1,13 @@
 import express from 'express'
 import cors from 'cors'
 import 'dotenv/config'
-import connectDB from './config/mongodb.js'
+
 import connectCloudinary from './config/cloudinary.js'
 import userRouter from './routes/userRoute.js'
 import userModel from './models/userModel.js'
 import productRouter from './routes/productRoute.js'
+import connectDB from './config/mongodb.js'; // ✅ Default export match karega
+
 
 // App config
 const app = express()
